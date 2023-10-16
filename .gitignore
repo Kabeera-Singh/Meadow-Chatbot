@@ -1,0 +1,11 @@
+venv
+*.pyc
+.DS_Store
+.env
+_pycache_
+templates
+unused data
+iNaturalist*
+iNaturalist.ipynb
+testing.ipynb
+lab*

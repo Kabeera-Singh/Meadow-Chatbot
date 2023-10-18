@@ -6,6 +6,7 @@ from dash import html
 
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+server = app.server
 zero_shot_agent = agent.CustomAgent()
 
 # Add a heading

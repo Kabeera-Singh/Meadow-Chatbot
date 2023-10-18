@@ -1,11 +1,11 @@
 import os
-from langchain import OpenAI
+from langchain.llms import OpenAI
+from langchain.chains import LLMChain
 from langchain.callbacks import get_openai_callback
 from sqlalchemy import Column, Integer, String, Table, Date, Float, insert, MetaData, create_engine
 from datetime import datetime
 from langchain.chat_models import ChatOpenAI
 from langchain.sql_database import SQLDatabase
-from langchain import LLMChain
 # from langchain.chains import SQLDatabaseChain
 from langchain_experimental.sql import SQLDatabaseChain
 from langchain.agents import Tool, load_tools, initialize_agent

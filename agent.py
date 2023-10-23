@@ -10,6 +10,10 @@ from langchain.sql_database import SQLDatabase
 from langchain_experimental.sql import SQLDatabaseChain
 from langchain.agents import Tool, load_tools, initialize_agent
 import pandas as pd
+# Load openai key
+# OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+# OPENAI_API_KEY = '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'
+OPENAI_API_KEY = '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'
 
 def count_tokens(agent, query):
     with get_openai_callback() as cb:
@@ -20,32 +24,19 @@ def count_tokens(agent, query):
 
 class DatabaseAgent:
     def __init__(self):
-        # Load openai key
-        # OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
-        # OPENAI_API_KEY = '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'
-        OPENAI_API_KEY = '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'
-
         # instantiate LLM
         llm = OpenAI(
             openai_api_key=OPENAI_API_KEY,
             temperature=0
         )
 
-        # Function to count the number of tokens our LLM has used
-        metadata_obj = MetaData()
 
         # Read the CSV file into a pandas DataFrame
-        df = pd.read_csv('data\cleaned_lab_df.csv')
+        df = pd.read_csv('data/cleaned_lab_df.csv')
         state_df = pd.read_csv('data/state_df.csv')
         bloom_time_df = pd.read_csv('data/bloom_time_df.csv')
         bloom_color_df = pd.read_csv('data/bloom_color_df.csv')
-
         # Create the database engine
-        # Read the CSV file into a pandas DataFrame
-        df = pd.read_csv('data\cleaned_lab_df.csv')
-        state_df = pd.read_csv('data/state_df.csv')
-        bloom_time_df = pd.read_csv('data/bloom_time_df.csv')
-        bloom_color_df = pd.read_csv('data/bloom_color_df.csv')
         engine = create_engine('sqlite:///data/lab_db.db')
 
         # Insert the data from the DataFrame into the table
@@ -80,5 +71,27 @@ class DatabaseAgent:
 
 class ChatAgent:
     def __init__(self):
+        llm = OpenAI(
+            openai_api_key=OPENAI_API_KEY,
+            temperature=0
+        )
         db_agent = DatabaseAgent()
 
+        database_tool = Tool(
+            name='plant database agent',
+            description="Ask questions about plants, format your questions in a way that can be answered in 1 simple sql query"
+        )
+
+        tools = load_tools([], llm=llm)
+        tools.append(database_tool)
+
+        self.zero_shot_agent = initialize_agent(
+            agent="zero-shot-react-description", 
+            tools=tools, 
+            llm=llm,
+            verbose=True,
+            max_iterations=10,
+        )
+
+    def query(self,query_text):
+        return count_tokens(self.zero_shot_agent,query_text)

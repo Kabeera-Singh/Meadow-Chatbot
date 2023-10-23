@@ -7,7 +7,7 @@ from dash import html
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 server = app.server
-zero_shot_agent = agent.CustomAgent()
+zero_shot_agent = agent.DatabaseAgent()
 
 # Add a heading
 heading = html.H1("Meadow Application", style={'text-align': 'center'})

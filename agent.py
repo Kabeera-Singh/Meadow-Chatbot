@@ -18,11 +18,12 @@ def count_tokens(agent, query):
 
     return result
 
-class CustomAgent:
+class DatabaseAgent:
     def __init__(self):
         # Load openai key
-        OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+        # OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
         # OPENAI_API_KEY = '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'
+        OPENAI_API_KEY = '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'
 
         # instantiate LLM
         llm = OpenAI(
@@ -63,7 +64,7 @@ class CustomAgent:
             description="Useful for when you need to answer questions about native plants. There are many states in the state column, so use Like when querying this column."
         )
 
-        tools = load_tools([ "llm-math"], llm=llm)
+        tools = load_tools([], llm=llm)
         tools.append(plant_data_tool)
 
         self.zero_shot_agent = initialize_agent(
@@ -76,3 +77,8 @@ class CustomAgent:
 
     def query(self,query_text):
         return count_tokens(self.zero_shot_agent,query_text)
+
+class ChatAgent:
+    def __init__(self):
+        db_agent = DatabaseAgent()
+

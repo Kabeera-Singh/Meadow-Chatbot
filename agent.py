@@ -21,8 +21,8 @@ def count_tokens(agent, query):
 class CustomAgent:
     def __init__(self):
         # Load openai key
-        # OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
-        OPENAI_API_KEY = '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'
+        OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+        # OPENAI_API_KEY = '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'
 
         # instantiate LLM
         llm = OpenAI(

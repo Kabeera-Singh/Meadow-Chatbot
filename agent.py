@@ -10,11 +10,10 @@ from langchain.sql_database import SQLDatabase
 from langchain_experimental.sql import SQLDatabaseChain
 from langchain.agents import Tool, load_tools, initialize_agent
 import pandas as pd
+
 # Load openai key
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
-# OPENAI_API_KEY = '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'
-# OPENAI_API_KEY = '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'
-# OPENAI_API_KEY = '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' # real key
+OPENAI_API_KEY = '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'
 def count_tokens(agent, query):
     with get_openai_callback() as cb:
         result = agent(query)

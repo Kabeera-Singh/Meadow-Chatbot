@@ -13,7 +13,7 @@ import pandas as pd
 
 # Load openai key
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
-OPENAI_API_KEY = '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'
+OPENAI_API_KEY = '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'
 def count_tokens(agent, query):
     with get_openai_callback() as cb:
         result = agent(query)
@@ -51,7 +51,7 @@ class DatabaseAgent:
         plant_data_tool = Tool(
             name='Lab DB',
             func=sql_chain.run,
-            description="Useful for when you need to answer questions about native plants. There are many states in the state column, so use Like when querying this column."
+            description="Useful for when you need to answer questions about native plants. There are many states in the state column, so use Like and distinct when querying this column."
         )
 
         tools = load_tools([], llm=llm)

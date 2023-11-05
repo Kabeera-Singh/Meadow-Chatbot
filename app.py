@@ -37,7 +37,7 @@ sidebar = html.Div(
 )
 
 content = html.Div(id="page-content", style=CONTENT_STYLE)
-store_chat = html.Div(id='store-chat', style={'display': 'none'}, children='')  # Add this line
+store_chat = html.Div(id='store-chat', style={'display': 'none'}, children='')
 
 app.layout = html.Div([dcc.Location(id="url"), content, header, sidebar, store_chat])  # Add store_chat here
 
@@ -104,6 +104,9 @@ app_page = html.Div([
     dash.dependencies.State('store-chat', 'children'),
 )
 def update_chat(n_clicks, input_value, stored_chat):
+    if n_clicks is None:
+        prompt = "Bot: Hello and welcome to Native plant garden app, where you can design a native garden for your outdoor spaces. This could be to replace an existing front or back lawn, as well as to enhance any outdoor area with vibrant, eco-friendly native plants. \nTo start, please give us your location, as well as information about the space you would like to transform, and anything else you think would be helpful."
+        return prompt,prompt
     if n_clicks is not None:
         print(input_value)
         response = zero_shot_agent.query(input_value)['output']

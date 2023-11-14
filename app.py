@@ -16,7 +16,7 @@ SIDEBAR_STYLE = styles["SIDEBAR"]
 CONTENT_STYLE = styles["CONTENT"]
 
 server = app.server
-zero_shot_agent = agent.DatabaseAgent()
+chat_agent = agent.ResponseAgent()
 
 header = html.H1("Meadow Application", style=HEADER_STYLE)
 
@@ -109,7 +109,7 @@ def update_chat(n_clicks, input_value, stored_chat):
         return prompt,prompt
     if n_clicks is not None:
         print(input_value)
-        response = zero_shot_agent.query(input_value)['output']
+        response = chat_agent.query_assistant(input_value)
         new_chat = f"{stored_chat}\nUser: {input_value}\nBot: {response}" if stored_chat else f"User: {input_value}\nBot: {response}"
         return new_chat, new_chat
     else:
